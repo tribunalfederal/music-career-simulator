@@ -42,11 +42,19 @@ class Player {
     }
 
     updateStats(newStats) {
-        this.profile.stats = { ...this.profile.stats, ...newStats };
+        Object.keys(newStats).forEach(stat => {
+            if (this.profile.stats[stat] !== undefined) {
+                this.profile.stats[stat] += newStats[stat];
+            }
+        });
     }
 
     updateCareer(careerUpdate) {
-        this.profile.career = { ...this.profile.career, ...careerUpdate };
+        Object.keys(careerUpdate).forEach(key => {
+            if (this.profile.career[key] !== undefined) {
+                this.profile.career[key] += careerUpdate[key];
+            }
+        });
     }
 
     updateFinances(transaction) {

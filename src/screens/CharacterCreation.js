@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useGameDispatch, gameActions, SCREENS } from '../GameContext';
+import './CharacterCreation.css';
 
-const CharacterCreation = ({ onCreateCharacter }) => {
+const CharacterCreation = () => {
+  const dispatch = useGameDispatch();
   const [characterData, setCharacterData] = useState({
     name: '',
     artistName: '',
@@ -16,7 +19,13 @@ const CharacterCreation = ({ onCreateCharacter }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreateCharacter(characterData);
+    if (characterData.name && characterData.artistName) {
+      dispatch(gameActions.createPlayer(characterData));
+    }
+  };
+
+  const handleBack = () => {
+    dispatch(gameActions.setScreen(SCREENS.TITLE));
   };
 
   return (
@@ -65,7 +74,14 @@ const CharacterCreation = ({ onCreateCharacter }) => {
             <option value="longo">Longo</option>
           </select>
         </div>
-        <button type="submit">Criar Personagem</button>
+        <div className="form-actions">
+          <button type="button" className="btn btn-secondary" onClick={handleBack}>
+            Voltar
+          </button>
+          <button type="submit" className="btn btn-primary" disabled={!characterData.name || !characterData.artistName}>
+            Criar Personagem
+          </button>
+        </div>
       </form>
     </div>
   );
