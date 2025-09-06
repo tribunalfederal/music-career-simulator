@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './CharacterCreation.css';
 
 const CharacterCreation = ({ onCreateCharacter }) => {
   const [characterData, setCharacterData] = useState({
@@ -16,7 +17,9 @@ const CharacterCreation = ({ onCreateCharacter }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreateCharacter(characterData);
+    if (characterData.name && characterData.artistName) {
+      onCreateCharacter(characterData);
+    }
   };
 
   return (
@@ -65,7 +68,9 @@ const CharacterCreation = ({ onCreateCharacter }) => {
             <option value="longo">Longo</option>
           </select>
         </div>
-        <button type="submit">Criar Personagem</button>
+        <button type="submit" disabled={!characterData.name || !characterData.artistName}>
+          Criar Personagem
+        </button>
       </form>
     </div>
   );
